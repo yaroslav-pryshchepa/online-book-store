@@ -1,15 +1,9 @@
 package book.store.dto;
 
 import java.math.BigDecimal;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.Data;
 
-@Getter
-@Setter
-@EqualsAndHashCode
-@ToString
+@Data
 public class CreateBookRequestDto {
     private String title;
     private String author;
