@@ -36,7 +36,7 @@ databaseChangeLog:
                     nullable: false
               - column:
                   name: description
-                  type: TEXT
+                  type: VARCHAR(500)
               - column:
                   name: cover_image
                   type: VARCHAR(500)
