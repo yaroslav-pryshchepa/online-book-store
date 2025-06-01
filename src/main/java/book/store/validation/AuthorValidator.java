@@ -8,7 +8,7 @@ public class AuthorValidator implements ConstraintValidator<Author, String> {
     private static final String PATTERN_OF_AUTHOR = "^([A-Za-zА-Яа-яЁёІіЇїЄєҐґ]+[-']?\\s?)+$";
 
     @Override
-    public boolean isValid(String isbn, ConstraintValidatorContext constraintValidatorContext) {
-        return isbn != null && Pattern.compile(PATTERN_OF_AUTHOR).matcher(isbn).matches();
+    public boolean isValid(String author, ConstraintValidatorContext constraintValidatorContext) {
+        return author != null && Pattern.compile(PATTERN_OF_AUTHOR).matcher(author).matches();
     }
 }
