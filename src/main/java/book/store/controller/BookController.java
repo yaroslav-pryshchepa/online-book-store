@@ -7,7 +7,6 @@ import book.store.service.BookService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
-import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -63,8 +62,10 @@ public class BookController {
     }
 
     @GetMapping("/search")
-    @Operation(summary = "Search books", description = "Search books by selected parameters")
-    public List<BookDto> search(BookSearchParametersDto searchParameters) {
-        return bookService.search(searchParameters);
+    @Operation(summary = "Search books",
+            description = "Search books by selected parameters with pagination")
+    public Page<BookDto> search(
+            BookSearchParametersDto searchParameters, Pageable pageable) {
+        return bookService.search(searchParameters, pageable);
     }
 }
