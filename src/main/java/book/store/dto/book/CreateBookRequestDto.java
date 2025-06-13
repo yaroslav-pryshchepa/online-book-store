@@ -1,4 +1,4 @@
-package book.store.dto;
+package book.store.dto.book;
 
 import book.store.validation.Author;
 import jakarta.validation.constraints.NotBlank;
