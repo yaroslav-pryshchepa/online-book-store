@@ -1,5 +1,6 @@
 package book.store.controller;
 
+import book.store.dto.user.UserLoginRequestDto;
 import book.store.dto.user.UserRegistrationRequestDto;
 import book.store.dto.user.UserResponseDto;
 import book.store.exception.RegistrationException;
@@ -25,5 +26,10 @@ public class AuthController {
     public UserResponseDto register(@RequestBody @Valid UserRegistrationRequestDto requestDto)
             throws RegistrationException {
         return userService.register(requestDto);
+    }
+
+    @PostMapping("/login")
+    public boolean login(@RequestBody UserLoginRequestDto requestDto) {
+        return true;
     }
 }

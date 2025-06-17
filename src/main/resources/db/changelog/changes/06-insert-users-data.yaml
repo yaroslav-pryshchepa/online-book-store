@@ -1,0 +1,95 @@
+databaseChangeLog:
+  - changeSet:
+      id: insert-users-data
+      author: developer
+      changes:
+        - insert:
+            tableName: users
+            columns:
+              - column:
+                  name: email
+                  value: admin@bookstore.com
+              - column:
+                  name: password
+                  value: $2a$10$7PtcjEnWb/ZkgyXyxY1/Oe9T5RYQhdfLQU.bQS6qP5VWgqyZqF8Na
+              - column:
+                  name: first_name
+                  value: Admin
+              - column:
+                  name: last_name
+                  value: User
+              - column:
+                  name: shipping_address
+                  value: 123 Admin Street, Admin City, AC 12345
+              - column:
+                  name: is_deleted
+                  valueBoolean: false
+        - insert:
+            tableName: users
+            columns:
+              - column:
+                  name: email
+                  value: john.doe@bookstore.com
+              - column:
+                  name: password
+                  value: $2a$10$7PtcjEnWb/ZkgyXyxY1/Oe9T5RYQhdfLQU.bQS6qP5VWgqyZqF8Na
+              - column:
+                  name: first_name
+                  value: John
+              - column:
+                  name: last_name
+                  value: Doe
+              - column:
+                  name: shipping_address
+                  value: 456 Main Street, Springfield, SP 67890
+              - column:
+                  name: is_deleted
+                  valueBoolean: false
+        - insert:
+            tableName: users
+            columns:
+              - column:
+                  name: email
+                  value: jane.smith@bookstore.com
+              - column:
+                  name: password
+                  value: $2a$10$7PtcjEnWb/ZkgyXyxY1/Oe9T5RYQhdfLQU.bQS6qP5VWgqyZqF8Na
+              - column:
+                  name: first_name
+                  value: Jane
+              - column:
+                  name: last_name
+                  value: Smith
+              - column:
+                  name: shipping_address
+                  value: 789 Oak Avenue, Riverside, RS 54321
+              - column:
+                  name: is_deleted
+                  valueBoolean: false
+        - insert:
+            tableName: users_roles
+            columns:
+              - column:
+                  name: users_id
+                  value: 1
+              - column:
+                  name: roles_id
+                  value: 1
+        - insert:
+            tableName: users_roles
+            columns:
+              - column:
+                  name: users_id
+                  value: 2
+              - column:
+                  name: roles_id
+                  value: 2
+        - insert:
+            tableName: users_roles
+            columns:
+              - column:
+                  name: users_id
+                  value: 3
+              - column:
+                  name: roles_id
+                  value: 2
