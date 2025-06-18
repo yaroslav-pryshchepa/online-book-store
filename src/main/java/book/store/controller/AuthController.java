@@ -29,7 +29,8 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public boolean login(@RequestBody UserLoginRequestDto requestDto) {
-        return true;
+    @Operation(summary = "Login users", description = "Login users")
+    public UserLoginRequestDto login(@RequestBody @Valid UserLoginRequestDto requestDto) {
+        return new UserLoginRequestDto();
     }
 }
