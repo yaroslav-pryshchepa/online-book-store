@@ -11,7 +11,7 @@ databaseChangeLog:
                   value: admin@bookstore.com
               - column:
                   name: password
-                  value: $2a$10$7PtcjEnWb/ZkgyXyxY1/Oe9T5RYQhdfLQU.bQS6qP5VWgqyZqF8Na
+                  value: $2a$10$h8dDGRJgqV3hKf48EZbng.NndGRLAWJmA2xciRnlIAd1G3pfPumNi
               - column:
                   name: first_name
                   value: Admin
@@ -32,7 +32,7 @@ databaseChangeLog:
                   value: john.doe@bookstore.com
               - column:
                   name: password
-                  value: $2a$10$7PtcjEnWb/ZkgyXyxY1/Oe9T5RYQhdfLQU.bQS6qP5VWgqyZqF8Na
+                  value: $2a$10$h8dDGRJgqV3hKf48EZbng.NndGRLAWJmA2xciRnlIAd1G3pfPumNi
               - column:
                   name: first_name
                   value: John
@@ -53,7 +53,7 @@ databaseChangeLog:
                   value: jane.smith@bookstore.com
               - column:
                   name: password
-                  value: $2a$10$7PtcjEnWb/ZkgyXyxY1/Oe9T5RYQhdfLQU.bQS6qP5VWgqyZqF8Na
+                  value: $2a$10$h8dDGRJgqV3hKf48EZbng.NndGRLAWJmA2xciRnlIAd1G3pfPumNi
               - column:
                   name: first_name
                   value: Jane

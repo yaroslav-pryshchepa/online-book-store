@@ -7,11 +7,11 @@ databaseChangeLog:
             tableName: roles
             columns:
               - column:
-                  name: role_name
+                  name: name
                   value: ROLE_ADMIN
         - insert:
             tableName: roles
             columns:
               - column:
-                  name: role_name
+                  name: name
                   value: ROLE_USER
