@@ -5,8 +5,13 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 import java.math.BigDecimal;
+import java.util.HashSet;
+import java.util.Set;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -36,6 +41,15 @@ public class Book {
     private BigDecimal price;
     private String description;
     private String coverImage;
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
+    @ManyToMany
+    @JoinTable(
+            name = "books_categories",
+            joinColumns = @JoinColumn(name = "books_id"),
+            inverseJoinColumns = @JoinColumn(name = "categories_id")
+    )
+    private Set<Category> categories = new HashSet<>();
     @Column(nullable = false)
     private boolean isDeleted = false;
 }

@@ -5,10 +5,14 @@ import book.store.dto.book.BookSearchParametersDto;
 import book.store.dto.book.CreateBookRequestDto;
 import book.store.mapper.BookMapper;
 import book.store.model.Book;
+import book.store.model.Category;
 import book.store.repository.book.BookRepository;
 import book.store.repository.book.BookSpecificationBuilder;
+import book.store.repository.category.CategoryRepository;
 import book.store.service.BookService;
 import jakarta.persistence.EntityNotFoundException;
+import java.util.HashSet;
+import java.util.Set;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -21,10 +25,16 @@ public class BookServiceImpl implements BookService {
     private final BookRepository bookRepository;
     private final BookMapper bookMapper;
     private final BookSpecificationBuilder bookSpecificationBuilder;
+    private final CategoryRepository categoryRepository;
 
     @Override
     public BookDto save(CreateBookRequestDto requestDto) {
-        Book book = bookMapper.toModel(requestDto);
+        Book book = bookMapper.toEntity(requestDto);
+        if (requestDto.getCategoryIds() != null && !requestDto.getCategoryIds().isEmpty()) {
+            Set<Category> categories =
+                    new HashSet<>(categoryRepository.findAllById(requestDto.getCategoryIds()));
+            book.setCategories(categories);
+        }
         return bookMapper.toDto(bookRepository.save(book));
     }
 

@@ -30,14 +30,14 @@ public class BookController {
 
     private final BookService bookService;
 
-    @PreAuthorize("hasRole('ROLE_USER','ROLE_ADMIN')")
+    @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')")
     @GetMapping
     @Operation(summary = "Get books", description = "Get a page of available books")
     public Page<BookDto> findAll(Pageable pageable) {
         return bookService.findAll(pageable);
     }
 
-    @PreAuthorize("hasRole('ROLE_USER','ROLE_ADMIN')")
+    @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')")
     @GetMapping("/{id}")
     @Operation(summary = "Get a book", description = "Get a book by selected id")
     public BookDto findById(@PathVariable Long id) {
@@ -67,7 +67,7 @@ public class BookController {
         bookService.deleteById(id);
     }
 
-    @PreAuthorize("hasRole('ROLE_USER','ROLE_ADMIN')")
+    @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')")
     @GetMapping("/search")
     @Operation(summary = "Search books",
             description = "Search books by selected parameters with pagination")
