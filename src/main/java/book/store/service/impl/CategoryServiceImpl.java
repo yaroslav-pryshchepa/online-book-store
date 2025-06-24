@@ -2,9 +2,9 @@ package book.store.service.impl;
 
 import book.store.dto.book.BookDtoWithoutCategoryIds;
 import book.store.dto.category.CategoryDto;
+import book.store.dto.category.CreateCategoryRequestDto;
 import book.store.mapper.BookMapper;
 import book.store.mapper.CategoryMapper;
-import book.store.model.Book;
 import book.store.model.Category;
 import book.store.repository.book.BookRepository;
 import book.store.repository.category.CategoryRepository;
@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class CategoryServiceImpl implements CategoryService {
+
     private final CategoryRepository categoryRepository;
     private final BookRepository bookRepository;
     private final CategoryMapper categoryMapper;
@@ -38,8 +39,8 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public CategoryDto save(CategoryDto categoryDto) {
-        Category category = categoryMapper.toEntity(categoryDto);
+    public CategoryDto save(CreateCategoryRequestDto requestDto) {
+        Category category = categoryMapper.toEntity(requestDto);
         return categoryMapper.toDto(categoryRepository.save(category));
     }
 
@@ -49,8 +50,7 @@ public class CategoryServiceImpl implements CategoryService {
                 () -> new EntityNotFoundException("Can't find category by id: " + id)
         );
         categoryMapper.updateCategoryFromDto(categoryDto, category);
-        Category savedCategory = categoryRepository.save(category);
-        return categoryMapper.toDto(savedCategory);
+        return categoryMapper.toDto(categoryRepository.save(category));
     }
 
     @Override
@@ -59,9 +59,9 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public Page<BookDtoWithoutCategoryIds> findAllByCategoryId(Long categoryId, Pageable pageable) {
-        Page<Book> booksByCategoryId = bookRepository.findAllByCategories_Id(categoryId, pageable);
-        return booksByCategoryId.map(bookMapper::toDtoWithoutCategories);
-
+    public Page<BookDtoWithoutCategoryIds> findAllByCategoryId(Long categoryId,
+            Pageable pageable) {
+        return bookRepository.findAllByCategories_Id(categoryId, pageable)
+                .map(bookMapper::toDtoWithoutCategories);
     }
 }

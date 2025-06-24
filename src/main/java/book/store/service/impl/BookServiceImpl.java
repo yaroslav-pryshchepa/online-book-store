@@ -30,11 +30,9 @@ public class BookServiceImpl implements BookService {
     @Override
     public BookDto save(CreateBookRequestDto requestDto) {
         Book book = bookMapper.toEntity(requestDto);
-        if (requestDto.getCategoryIds() != null && !requestDto.getCategoryIds().isEmpty()) {
-            Set<Category> categories =
-                    new HashSet<>(categoryRepository.findAllById(requestDto.getCategoryIds()));
-            book.setCategories(categories);
-        }
+        Set<Category> categories =
+                new HashSet<>(categoryRepository.findAllById(requestDto.getCategoryIds()));
+        book.setCategories(categories);
         return bookMapper.toDto(bookRepository.save(book));
     }
 

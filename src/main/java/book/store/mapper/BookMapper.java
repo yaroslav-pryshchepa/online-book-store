@@ -7,7 +7,6 @@ import book.store.dto.book.CreateBookRequestDto;
 import book.store.model.Book;
 import book.store.model.Category;
 import java.util.List;
-import java.util.stream.Collectors;
 import org.mapstruct.AfterMapping;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -15,6 +14,7 @@ import org.mapstruct.MappingTarget;
 
 @Mapper(config = MapperConfig.class)
 public interface BookMapper {
+
     BookDto toDto(Book book);
 
     Book toEntity(CreateBookRequestDto requestDto);
@@ -32,7 +32,7 @@ public interface BookMapper {
             List<Long> categoryIds = book.getCategories()
                     .stream()
                     .map(Category::getId)
-                    .collect(Collectors.toList());
+                    .toList();
             bookDto.setCategoryIds(categoryIds);
         }
     }
