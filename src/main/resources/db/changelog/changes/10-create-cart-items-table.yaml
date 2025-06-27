@@ -1,7 +1,7 @@
 databaseChangeLog:
   - changeSet:
       id: 10-create-cart-items-table
-      author: developer
+      author: yaroslav-pryshchepa
       changes:
         - createTable:
             tableName: cart_items

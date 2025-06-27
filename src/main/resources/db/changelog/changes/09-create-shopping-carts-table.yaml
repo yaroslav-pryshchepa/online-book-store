@@ -1,7 +1,7 @@
 databaseChangeLog:
   - changeSet:
       id: 09-create-shopping-carts-table
-      author: yourname
+      author: yaroslav-pryshchepa
       changes:
         - createTable:
             tableName: shopping_carts

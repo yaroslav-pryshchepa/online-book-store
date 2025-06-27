@@ -6,17 +6,17 @@ import book.store.exception.RegistrationException;
 import book.store.mapper.UserMapper;
 import book.store.model.Role;
 import book.store.model.RoleName;
+import book.store.model.ShoppingCart;
 import book.store.model.User;
 import book.store.repository.role.RoleRepository;
+import book.store.repository.shoppingcart.ShoppingCartRepository;
 import book.store.repository.user.UserRepository;
-import book.store.service.ShoppingCartManagerService;
 import book.store.service.UserService;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import java.util.Set;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -28,7 +28,7 @@ public class UserServiceImpl implements UserService {
     private final UserMapper userMapper;
     private final PasswordEncoder getPasswordEncoder;
     private final RoleRepository roleRepository;
-    private final ShoppingCartManagerService shoppingCartManagerService;
+    private final ShoppingCartRepository shoppingCartRepository;
 
     @Override
     public UserResponseDto register(UserRegistrationRequestDto requestDto)
@@ -44,15 +44,15 @@ public class UserServiceImpl implements UserService {
                         + RoleName.ROLE_USER));
         user.setRoles(Set.of(userRole));
         User savedUser = userRepository.save(user);
-        shoppingCartManagerService.createShoppingCart(savedUser);
+        ShoppingCart cart = new ShoppingCart();
+        cart.setUser(savedUser);
+        shoppingCartRepository.save(cart);
         return userMapper.toDto(savedUser);
     }
 
     @Override
-    public User getCurrentUser() {
+    public Long getCurrentUserId() {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        return userRepository.findById(user.getId())
-                .orElseThrow(() -> new UsernameNotFoundException("User not found with id: "
-                        + user.getId()));
+        return user.getId();
     }
 }
