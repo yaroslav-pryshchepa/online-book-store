@@ -1,6 +1,7 @@
 package book.store.service;
 
 import book.store.dto.book.AddBookToCartRequestDto;
+import book.store.dto.shoppingcart.QuantityDto;
 import book.store.dto.shoppingcart.ShoppingCartDto;
 
 public interface ShoppingCartService {
@@ -8,7 +9,7 @@ public interface ShoppingCartService {
 
     ShoppingCartDto addBookToShoppingCart(AddBookToCartRequestDto dto);
 
-    ShoppingCartDto updateQuantity(Long cartItemId, int quantity);
+    ShoppingCartDto updateQuantity(Long cartItemId, QuantityDto quantity);
 
     ShoppingCartDto removeBookFromShoppingCart(Long cartItemId);
 }

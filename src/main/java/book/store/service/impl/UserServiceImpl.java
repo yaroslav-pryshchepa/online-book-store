@@ -6,11 +6,10 @@ import book.store.exception.RegistrationException;
 import book.store.mapper.UserMapper;
 import book.store.model.Role;
 import book.store.model.RoleName;
-import book.store.model.ShoppingCart;
 import book.store.model.User;
 import book.store.repository.role.RoleRepository;
-import book.store.repository.shoppingcart.ShoppingCartRepository;
 import book.store.repository.user.UserRepository;
+import book.store.service.ShoppingCartManagerService;
 import book.store.service.UserService;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
@@ -29,7 +28,7 @@ public class UserServiceImpl implements UserService {
     private final UserMapper userMapper;
     private final PasswordEncoder getPasswordEncoder;
     private final RoleRepository roleRepository;
-    private final ShoppingCartRepository shoppingCartRepository;
+    private final ShoppingCartManagerService shoppingCartManagerService;
 
     @Override
     public UserResponseDto register(UserRegistrationRequestDto requestDto)
@@ -45,17 +44,15 @@ public class UserServiceImpl implements UserService {
                         + RoleName.ROLE_USER));
         user.setRoles(Set.of(userRole));
         User savedUser = userRepository.save(user);
-        ShoppingCart shoppingCart = new ShoppingCart();
-        shoppingCart.setUser(savedUser);
-        shoppingCartRepository.save(shoppingCart);
+        shoppingCartManagerService.createShoppingCart(savedUser);
         return userMapper.toDto(savedUser);
     }
 
     @Override
     public User getCurrentUser() {
-        String email = SecurityContextHolder.getContext().getAuthentication().getName();
-        return userRepository.findByEmail(email)
-                .orElseThrow(() -> new UsernameNotFoundException("Username not found by email: "
-                        + email));
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        return userRepository.findById(user.getId())
+                .orElseThrow(() -> new UsernameNotFoundException("User not found with id: "
+                        + user.getId()));
     }
 }

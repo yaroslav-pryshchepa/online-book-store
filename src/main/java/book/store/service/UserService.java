@@ -8,5 +8,5 @@ import book.store.model.User;
 public interface UserService {
     UserResponseDto register(UserRegistrationRequestDto requestDto) throws RegistrationException;
 
-    public User getCurrentUser();
+    User getCurrentUser();
 }

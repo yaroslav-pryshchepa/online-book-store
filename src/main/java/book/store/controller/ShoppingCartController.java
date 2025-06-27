@@ -1,12 +1,12 @@
 package book.store.controller;
 
 import book.store.dto.book.AddBookToCartRequestDto;
+import book.store.dto.shoppingcart.QuantityDto;
 import book.store.dto.shoppingcart.ShoppingCartDto;
 import book.store.service.ShoppingCartService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.Min;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @Tag(name = "Shopping cart management", description = "Endpoints for managing shopping carts")
@@ -47,7 +46,7 @@ public class ShoppingCartController {
     @Operation(summary = "Update quantity of a book",
             description = "Update quantity of a book in the shopping cart")
     public ShoppingCartDto updateQuantity(@PathVariable Long cartItemId,
-            @RequestParam @Min(value = 1) int quantity) {
+            @RequestBody @Valid QuantityDto quantity) {
         return shoppingCartService.updateQuantity(cartItemId, quantity);
     }
 
