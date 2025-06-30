@@ -1,0 +1,50 @@
+databaseChangeLog:
+  - changeSet:
+      id: 13-insert-initial-categories
+      author: yaroslav-pryshchepa
+      changes:
+        - insert:
+            tableName: categories
+            columns:
+              - column:
+                  name: id
+                  valueNumeric: 1
+              - column:
+                  name: name
+                  value: "Science Fiction"
+              - column:
+                  name: description
+                  value: "Books related to science fiction genre"
+              - column:
+                  name: is_deleted
+                  valueBoolean: false
+        - insert:
+            tableName: categories
+            columns:
+              - column:
+                  name: id
+                  valueNumeric: 2
+              - column:
+                  name: name
+                  value: "Fantasy"
+              - column:
+                  name: description
+                  value: "Books related to fantasy genre"
+              - column:
+                  name: is_deleted
+                  valueBoolean: false
+        - insert:
+            tableName: categories
+            columns:
+              - column:
+                  name: id
+                  valueNumeric: 3
+              - column:
+                  name: name
+                  value: "History"
+              - column:
+                  name: description
+                  value: "Historical books and literature"
+              - column:
+                  name: is_deleted
+                  valueBoolean: false

@@ -1,0 +1,22 @@
+databaseChangeLog:
+  - changeSet:
+      id: 15-insert-books-categories
+      author: yaroslav-pryshchepa
+      changes:
+        - insert:
+            tableName: books_categories
+            columns:
+              - column: { name: books_id, valueNumeric: 1 }
+              - column: { name: categories_id, valueNumeric: 1 }
+
+        - insert:
+            tableName: books_categories
+            columns:
+              - column: { name: books_id, valueNumeric: 2 }
+              - column: { name: categories_id, valueNumeric: 2 }
+
+        - insert:
+            tableName: books_categories
+            columns:
+              - column: { name: books_id, valueNumeric: 3 }
+              - column: { name: categories_id, valueNumeric: 3 }

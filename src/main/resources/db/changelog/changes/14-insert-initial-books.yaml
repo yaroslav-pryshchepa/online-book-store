@@ -1,0 +1,88 @@
+databaseChangeLog:
+  - changeSet:
+      id: 14-insert-initial-books
+      author: yaroslav-pryshchepa
+      changes:
+        - insert:
+            tableName: books
+            columns:
+              - column:
+                  name: id
+                  valueNumeric: 1
+              - column:
+                  name: title
+                  value: "Dune"
+              - column:
+                  name: author
+                  value: "Frank Herbert"
+              - column:
+                  name: isbn
+                  value: "9780441013593"
+              - column:
+                  name: price
+                  valueNumeric: 19.99
+              - column:
+                  name: description
+                  value: "Epic science fiction novel set in a distant future."
+              - column:
+                  name: cover_image
+                  value: "/images/dune.jpg"
+              - column:
+                  name: is_deleted
+                  valueBoolean: false
+
+        - insert:
+            tableName: books
+            columns:
+              - column:
+                  name: id
+                  valueNumeric: 2
+              - column:
+                  name: title
+                  value: "The Hobbit"
+              - column:
+                  name: author
+                  value: "J.R.R. Tolkien"
+              - column:
+                  name: isbn
+                  value: "9780547928227"
+              - column:
+                  name: price
+                  valueNumeric: 14.99
+              - column:
+                  name: description
+                  value: "Fantasy novel about the adventures of Bilbo Baggins."
+              - column:
+                  name: cover_image
+                  value: "/images/hobbit.jpg"
+              - column:
+                  name: is_deleted
+                  valueBoolean: false
+
+        - insert:
+            tableName: books
+            columns:
+              - column:
+                  name: id
+                  valueNumeric: 3
+              - column:
+                  name: title
+                  value: "Sapiens"
+              - column:
+                  name: author
+                  value: "Yuval Noah Harari"
+              - column:
+                  name: isbn
+                  value: "9780062316097"
+              - column:
+                  name: price
+                  valueNumeric: 21.50
+              - column:
+                  name: description
+                  value: "A brief history of humankind."
+              - column:
+                  name: cover_image
+                  value: "/images/sapiens.jpg"
+              - column:
+                  name: is_deleted
+                  valueBoolean: false
