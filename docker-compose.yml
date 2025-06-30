@@ -4,11 +4,12 @@ services:
   mysqldb:
     image: mysql:8
     restart: unless-stopped
+    env_file: .env
     environment:
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
       MYSQL_DATABASE: ${MYSQL_DATABASE}
     ports:
-      - "3307:3306"
+      - ${MYSQL_LOCAL_PORT}:${MYSQL_DOCKER_PORT}
     healthcheck:
       test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
       interval: 30s
@@ -22,11 +23,11 @@ services:
     build: .
     image: book-store-app
     restart: on-failure
-    ports:
-      - "8080:8080"
-      - "5005:5005"
     env_file:
       - .env
+    ports:
+      - ${SPRING_LOCAL_PORT}:${SPRING_DOCKER_PORT}
+      - ${DEBUG_PORT}:${DEBUG_PORT}
     environment:
       SPRING_APPLICATION_JSON: |
         {
@@ -41,4 +42,4 @@ services:
           "jwt.secret": "${JWT_SECRET}",
           "spring.application.name": "${SPRING_APPLICATION_NAME}"
         }
-      JAVA_TOOL_OPTIONS: "-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005"
+      JAVA_TOOL_OPTIONS: "-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:${DEBUG_PORT}"
