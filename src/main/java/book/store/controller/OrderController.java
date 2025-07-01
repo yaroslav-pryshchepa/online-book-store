@@ -43,8 +43,9 @@ public class OrderController {
     @GetMapping
     @Operation(summary = "Get user's order history",
             description = "Retrieve user's order history")
-    public Page<OrderDto> getOrders(Pageable pageable) {
-        return orderService.getOrders(pageable);
+    public Page<OrderDto> getOrders(Pageable pageable,
+            Authentication authentication) {
+        return orderService.getOrders(pageable, authentication);
     }
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")

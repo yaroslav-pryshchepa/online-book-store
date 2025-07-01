@@ -12,7 +12,7 @@ import org.springframework.security.core.Authentication;
 public interface OrderService {
     OrderDto createOrder(AddOrderRequestDto dto, Authentication authentication);
 
-    Page<OrderDto> getOrders(Pageable pageable);
+    Page<OrderDto> getOrders(Pageable pageable, Authentication authentication);
 
     OrderDto updateStatus(Long id, UpdateStatusRequestDto dto);
 
