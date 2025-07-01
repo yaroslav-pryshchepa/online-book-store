@@ -9,7 +9,6 @@ import lombok.Data;
 @Data
 public class OrderDto {
     private Long id;
-    private String userEmail;
     private String status;
     private BigDecimal total;
     private LocalDateTime orderDate;

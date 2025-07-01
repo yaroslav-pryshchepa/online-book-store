@@ -8,7 +8,6 @@ import book.store.mapper.ShoppingCartMapper;
 import book.store.model.Book;
 import book.store.model.CartItem;
 import book.store.model.ShoppingCart;
-import book.store.model.User;
 import book.store.repository.book.BookRepository;
 import book.store.repository.cartitem.CartItemRepository;
 import book.store.repository.shoppingcart.ShoppingCartRepository;
@@ -77,22 +76,6 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
         cart.getCartItems().remove(item);
         cartItemRepository.delete(item);
         return shoppingCartMapper.toDto(cartRepository.save(cart));
-    }
-
-    @Override
-    public void createShoppingCart(User user) {
-        ShoppingCart cart = new ShoppingCart();
-        cart.setUser(user);
-        cartRepository.save(cart);
-    }
-
-    @Override
-    public void clearShoppingCart(User user) {
-        ShoppingCart cart = cartRepository.findByUserId(user.getId())
-                .orElseThrow(() -> new EntityNotFoundException(
-                        "Shopping cart not found for user id: " + user.getId()));
-        cart.getCartItems().clear();
-        cartRepository.save(cart);
     }
 
     private CartItem findUserCartItem(Long cartItemId) {
