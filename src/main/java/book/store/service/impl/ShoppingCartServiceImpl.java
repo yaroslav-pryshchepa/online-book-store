@@ -8,7 +8,6 @@ import book.store.mapper.ShoppingCartMapper;
 import book.store.model.Book;
 import book.store.model.CartItem;
 import book.store.model.ShoppingCart;
-import book.store.model.User;
 import book.store.repository.book.BookRepository;
 import book.store.repository.cartitem.CartItemRepository;
 import book.store.repository.shoppingcart.ShoppingCartRepository;
@@ -77,13 +76,6 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
         cart.getCartItems().remove(item);
         cartItemRepository.delete(item);
         return shoppingCartMapper.toDto(cartRepository.save(cart));
-    }
-
-    @Override
-    public void createShoppingCart(User user) {
-        ShoppingCart cart = new ShoppingCart();
-        cart.setUser(user);
-        cartRepository.save(cart);
     }
 
     private CartItem findUserCartItem(Long cartItemId) {
