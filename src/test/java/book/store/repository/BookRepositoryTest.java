@@ -35,7 +35,7 @@ public class BookRepositoryTest {
         Pageable pageable = PageRequest.of(0, 2);
         Page<Book> booksPage = bookRepository.findAllByCategories_Id(2L, pageable);
         List<String> actual = booksPage.map(Book::getTitle).toList();
-        List<String> expected = List.of("Second Book");
+        List<String> expected = List.of("The Hobbit");
         assertEquals(expected, actual);
     }
 }

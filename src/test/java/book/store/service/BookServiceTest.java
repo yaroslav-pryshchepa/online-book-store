@@ -14,6 +14,7 @@ import static org.mockito.Mockito.when;
 
 import book.store.dto.book.BookDto;
 import book.store.dto.book.CreateBookRequestDto;
+import book.store.exception.EntityNotFoundException;
 import book.store.mapper.BookMapper;
 import book.store.model.Book;
 import book.store.model.Category;
@@ -21,7 +22,6 @@ import book.store.repository.book.BookRepository;
 import book.store.repository.book.BookSpecificationBuilder;
 import book.store.repository.category.CategoryRepository;
 import book.store.service.impl.BookServiceImpl;
-import jakarta.persistence.EntityNotFoundException;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -149,11 +149,13 @@ class BookServiceTest {
     }
 
     @Test
-    @DisplayName("deleteById should call repository")
+    @DisplayName("deleteById should call repository when book exists")
     void deleteById_callsRepository() {
         Long id = 1L;
+        when(bookRepository.existsById(id)).thenReturn(true);
         doNothing().when(bookRepository).deleteById(id);
         bookService.deleteById(id);
+        verify(bookRepository).existsById(id);
         verify(bookRepository).deleteById(id);
     }
 }

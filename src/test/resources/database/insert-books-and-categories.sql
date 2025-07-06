@@ -6,13 +6,12 @@ VALUES
 
 INSERT INTO books (id, title, author, isbn, price, description, cover_image, is_deleted)
 VALUES
-    (1, 'First Book', 'Author A', '9780306406157', 10.00, 'Description 1', 'cover1.jpg', false),
-    (2, 'Second Book', 'Author B', '9781566199094', 15.50, 'Description 2', 'cover2.jpg', false),
-    (3, 'Third Book', 'Author C', '9783161484100', 20.00, 'Description 3', 'cover3.jpg', false);
+    (1, 'Sapiens1', 'Yuval Harari', '9780062316096', 10.99, 'Test description', 'http://example.com/test-cover.jpg', false),
+    (2, 'Dune', 'Frank Herbert', '9780441013593', 15.99, 'Test description', 'http://example.com/test-cover.jpg', false),
+    (3, 'The Hobbit', 'Yuval Tolkien', '9780547928227', 20.99, 'Test description', 'http://example.com/test-cover.jpg', false);
 
 INSERT INTO books_categories (books_id, categories_id)
 VALUES
     (1, 1),
     (2, 1),
-    (2, 2),
-    (3, 3);
+    (3, 2);

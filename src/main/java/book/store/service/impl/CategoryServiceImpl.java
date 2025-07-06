@@ -3,13 +3,13 @@ package book.store.service.impl;
 import book.store.dto.book.BookDtoWithoutCategoryIds;
 import book.store.dto.category.CategoryDto;
 import book.store.dto.category.CreateCategoryRequestDto;
+import book.store.exception.EntityNotFoundException;
 import book.store.mapper.BookMapper;
 import book.store.mapper.CategoryMapper;
 import book.store.model.Category;
 import book.store.repository.book.BookRepository;
 import book.store.repository.category.CategoryRepository;
 import book.store.service.CategoryService;
-import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -55,6 +55,9 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public void deleteById(Long id) {
+        if (!categoryRepository.existsById(id)) {
+            throw new EntityNotFoundException("Can't find category by id: " + id);
+        }
         categoryRepository.deleteById(id);
     }
 

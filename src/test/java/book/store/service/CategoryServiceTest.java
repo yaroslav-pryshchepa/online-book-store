@@ -16,6 +16,7 @@ import static org.mockito.Mockito.when;
 import book.store.dto.book.BookDtoWithoutCategoryIds;
 import book.store.dto.category.CategoryDto;
 import book.store.dto.category.CreateCategoryRequestDto;
+import book.store.exception.EntityNotFoundException;
 import book.store.mapper.BookMapper;
 import book.store.mapper.CategoryMapper;
 import book.store.model.Book;
@@ -23,7 +24,6 @@ import book.store.model.Category;
 import book.store.repository.book.BookRepository;
 import book.store.repository.category.CategoryRepository;
 import book.store.service.impl.CategoryServiceImpl;
-import jakarta.persistence.EntityNotFoundException;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -96,19 +96,18 @@ class CategoryServiceTest {
     @DisplayName("Update valid category returns CategoryDto")
     void update_withValidId_returnsUpdatedCategoryDto() {
         Long categoryId = 1L;
-        CategoryDto updateDto = createCategoryDto(categoryId);
-        updateDto.setName("Updated Fiction");
-        updateDto.setDescription("Updated description");
+        CategoryDto expected = createCategoryDto(categoryId);
+        expected.setName("Updated Fiction");
+        expected.setDescription("Updated description");
         Category category = createCategory(categoryId, "Fiction", "Fiction books");
-        CategoryDto expected = updateDto;
         when(categoryRepository.findById(categoryId)).thenReturn(Optional.of(category));
-        doNothing().when(categoryMapper).updateCategoryFromDto(updateDto, category);
+        doNothing().when(categoryMapper).updateCategoryFromDto(expected, category);
         when(categoryRepository.save(category)).thenReturn(category);
         when(categoryMapper.toDto(category)).thenReturn(expected);
-        CategoryDto actual = categoryService.update(categoryId, updateDto);
+        CategoryDto actual = categoryService.update(categoryId, expected);
         assertEquals(expected, actual);
         verify(categoryRepository).findById(categoryId);
-        verify(categoryMapper).updateCategoryFromDto(updateDto, category);
+        verify(categoryMapper).updateCategoryFromDto(expected, category);
         verify(categoryRepository).save(category);
         verify(categoryMapper).toDto(category);
     }
@@ -117,8 +116,10 @@ class CategoryServiceTest {
     @DisplayName("Delete category by id")
     void deleteById_withValidId_success() {
         Long categoryId = 1L;
+        when(categoryRepository.existsById(categoryId)).thenReturn(true);
         doNothing().when(categoryRepository).deleteById(categoryId);
         categoryService.deleteById(categoryId);
+        verify(categoryRepository).existsById(categoryId);
         verify(categoryRepository).deleteById(categoryId);
     }
 

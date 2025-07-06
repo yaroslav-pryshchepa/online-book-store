@@ -65,12 +65,12 @@ public class BookUtil {
 
     public static List<BookDto> createListOfBookDtos() {
         BookDto firstDto = createBookDto(1L, List.of(1L))
-                .setTitle("Sapiens")
+                .setTitle("Sapiens1")
                 .setAuthor("Yuval Harari")
-                .setIsbn("9780062316097")
+                .setIsbn("9780062316096")
                 .setPrice(BigDecimal.valueOf(10.99));
 
-        BookDto secondDto = createBookDto(2L, List.of(1L, 2L))
+        BookDto secondDto = createBookDto(2L, List.of(1L))
                 .setTitle("Dune")
                 .setAuthor("Frank Herbert")
                 .setIsbn("9780441013593")

@@ -1,5 +1,8 @@
 package book.store.controller;
 
+import static book.store.util.CategoryUtil.createCategoryDto;
+import static book.store.util.CategoryUtil.createListOfCategoryDtos;
+import static book.store.util.CategoryUtil.createUpdatedCategoryDto;
 import static org.apache.commons.lang3.builder.EqualsBuilder.reflectionEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -13,9 +16,12 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import book.store.dto.category.CategoryDto;
 import book.store.dto.category.CreateCategoryRequestDto;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.List;
 import javax.sql.DataSource;
 import lombok.SneakyThrows;
 import org.junit.jupiter.api.AfterEach;
@@ -108,60 +114,59 @@ class CategoryControllerTest {
 
         assertNotNull(actual);
         assertNotNull(actual.getId());
-        System.out.println(expected);
-        System.out.println(actual);
         assertTrue(reflectionEquals(expected, actual, "id"));
     }
 
     @WithMockUser(username = "user", roles = {"USER"})
     @Test
-    @DisplayName("Get all categories")
+    @DisplayName("Get all categories and compare content")
     void getAllCategories_Success() throws Exception {
-        MvcResult result = mockMvc.perform(get("/categories"))
+        List<CategoryDto> expected = createListOfCategoryDtos();
+
+        MvcResult result = mockMvc.perform(get("/categories")
+                        .param("page", "0")
+                        .param("size", "10")
+                        .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andReturn();
-
-        String content = result.getResponse().getContentAsString();
-        assertNotNull(content);
-        assertTrue(content.contains("Fiction"));
-        assertTrue(content.contains("Science"));
+        JsonNode root = objectMapper.readTree(result.getResponse().getContentAsByteArray());
+        JsonNode contentNode = root.get("content");
+        List<CategoryDto> actual = objectMapper.readValue(
+                contentNode.toString(),
+                new TypeReference<>() {
+                }
+        );
+        assertEquals(expected.size(), actual.size());
+        assertEquals(expected, actual);
     }
 
     @WithMockUser(username = "user", roles = {"USER"})
     @Test
     @DisplayName("Get category by id")
     void getCategoryById_Success() throws Exception {
+        CategoryDto expected = createCategoryDto(1L);
         MvcResult result = mockMvc.perform(get("/categories/{id}", 1))
                 .andExpect(status().isOk())
                 .andReturn();
-
         CategoryDto actual = objectMapper.readValue(result.getResponse().getContentAsString(),
                 CategoryDto.class);
-
         assertNotNull(actual);
-        assertEquals("Fiction", actual.getName());
-        assertEquals("Fiction books", actual.getDescription());
+        assertEquals(expected, actual);
     }
 
     @WithMockUser(username = "admin", roles = {"ADMIN"})
     @Test
     @DisplayName("Update category")
     void updateCategory_Success() throws Exception {
-        CategoryDto expected = new CategoryDto()
-                .setName("Updated Fiction")
-                .setDescription("Updated fiction description");
-
+        CategoryDto expected = createUpdatedCategoryDto(1L);
         String jsonRequest = objectMapper.writeValueAsString(expected);
-
         MvcResult result = mockMvc.perform(put("/categories/{id}", 1)
                         .content(jsonRequest)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andReturn();
-
         CategoryDto actual = objectMapper.readValue(result.getResponse().getContentAsString(),
                 CategoryDto.class);
-
         assertNotNull(actual);
         assertTrue(reflectionEquals(expected, actual, "id"));
     }
@@ -189,5 +194,49 @@ class CategoryControllerTest {
         assertTrue(content.contains("content"));
         assertTrue(content.contains("totalElements"));
         assertTrue(content.contains("totalPages"));
+    }
+
+    @WithMockUser(username = "admin", roles = {"ADMIN"})
+    @Test
+    @DisplayName("Create category with invalid request returns Bad Request")
+    void createCategory_InvalidRequest_ReturnsBadRequest() throws Exception {
+        CreateCategoryRequestDto requestDto = new CreateCategoryRequestDto()
+                .setName("") // invalid: empty name
+                .setDescription("Description");
+        String jsonRequest = objectMapper.writeValueAsString(requestDto);
+
+        mockMvc.perform(post("/categories")
+                        .content(jsonRequest)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isBadRequest());
+    }
+
+    @WithMockUser(username = "user", roles = {"USER"})
+    @Test
+    @DisplayName("Get category by invalid id returns Not Found")
+    void getCategoryById_InvalidId_ReturnsNotFound() throws Exception {
+        mockMvc.perform(get("/categories/{id}", 9999))
+                .andExpect(status().isNotFound());
+    }
+
+    @WithMockUser(username = "admin", roles = {"ADMIN"})
+    @Test
+    @DisplayName("Update category with invalid id returns Not Found")
+    void updateCategory_InvalidId_ReturnsNotFound() throws Exception {
+        CategoryDto updateDto = createUpdatedCategoryDto(9999L);
+        String jsonRequest = objectMapper.writeValueAsString(updateDto);
+
+        mockMvc.perform(put("/categories/{id}", 9999)
+                        .content(jsonRequest)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNotFound());
+    }
+
+    @WithMockUser(username = "admin", roles = {"ADMIN"})
+    @Test
+    @DisplayName("Delete category with invalid id returns Not Found")
+    void deleteCategory_InvalidId_ReturnsNotFound() throws Exception {
+        mockMvc.perform(delete("/categories/{id}", 9999))
+                .andExpect(status().isNotFound());
     }
 }
