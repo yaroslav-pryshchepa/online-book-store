@@ -30,7 +30,6 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInstance;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.core.io.ClassPathResource;
@@ -43,7 +42,6 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class BookControllerTest {
 
     protected static MockMvc mockMvc;
@@ -52,9 +50,10 @@ class BookControllerTest {
     private ObjectMapper objectMapper;
 
     @BeforeAll
-    void beforeAll(
-            @Autowired DataSource dataSource,
-            @Autowired WebApplicationContext applicationContext) {
+    static void beforeAll(
+            @Autowired WebApplicationContext applicationContext,
+            @Autowired DataSource dataSource
+    ) {
         mockMvc = MockMvcBuilders
                 .webAppContextSetup(applicationContext)
                 .apply(springSecurity())
@@ -63,7 +62,9 @@ class BookControllerTest {
     }
 
     @BeforeEach
-    void beforeEach(@Autowired DataSource dataSource) throws SQLException {
+    void beforeEach(
+            @Autowired DataSource dataSource
+    ) throws SQLException {
         try (Connection connection = dataSource.getConnection()) {
             connection.setAutoCommit(true);
             ScriptUtils.executeSqlScript(
@@ -74,7 +75,9 @@ class BookControllerTest {
     }
 
     @AfterEach
-    void afterEach(@Autowired DataSource dataSource) {
+    void afterEach(
+            @Autowired DataSource dataSource
+    ) {
         teardown(dataSource);
     }
 
@@ -113,7 +116,7 @@ class BookControllerTest {
 
     @WithMockUser(username = "user", roles = {"USER"})
     @Test
-    @DisplayName("Get book by id")
+    @DisplayName("Get book by id and validate content")
     void findById_WithValidId_ReturnsBookDto() throws Exception {
         MvcResult result = mockMvc.perform(get("/books/{id}", 1))
                 .andExpect(status().isOk())
@@ -121,11 +124,6 @@ class BookControllerTest {
         BookDto actual = objectMapper.readValue(result.getResponse().getContentAsString(),
                 BookDto.class);
         assertNotNull(actual);
-        assertNotNull(actual.getId());
-        assertNotNull(actual.getTitle());
-        assertNotNull(actual.getAuthor());
-        assertNotNull(actual.getIsbn());
-        assertNotNull(actual.getPrice());
         BookDto expected = createListOfBookDtos().get(0);
         assertEquals(expected, actual);
     }
@@ -247,10 +245,10 @@ class BookControllerTest {
     @DisplayName("Create book with invalid data")
     void save_WithInvalidRequestDto_ReturnsBadRequest() throws Exception {
         CreateBookRequestDto invalidRequest = new CreateBookRequestDto()
-                .setTitle("") // empty title
-                .setAuthor("") // empty author
-                .setIsbn("") // empty isbn
-                .setPrice(BigDecimal.valueOf(-10)) // negative price
+                .setTitle("")
+                .setAuthor("")
+                .setIsbn("")
+                .setPrice(BigDecimal.valueOf(-10))
                 .setDescription("")
                 .setCoverImage("")
                 .setCategoryIds(List.of());

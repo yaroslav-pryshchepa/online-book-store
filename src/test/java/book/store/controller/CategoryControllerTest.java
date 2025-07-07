@@ -29,7 +29,6 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInstance;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.core.io.ClassPathResource;
@@ -42,7 +41,6 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class CategoryControllerTest {
 
     protected static MockMvc mockMvc;
@@ -50,7 +48,7 @@ class CategoryControllerTest {
     private ObjectMapper objectMapper;
 
     @BeforeAll
-    void beforeAll(
+    static void beforeAll(
             @Autowired DataSource dataSource,
             @Autowired WebApplicationContext applicationContext) {
         mockMvc = MockMvcBuilders
@@ -99,19 +97,15 @@ class CategoryControllerTest {
         CategoryDto expected = new CategoryDto()
                 .setName("Adventures")
                 .setDescription("Books about adventures");
-
         String jsonRequest = objectMapper.writeValueAsString(requestDto);
-
         MvcResult result = mockMvc.perform(
                         post("/categories")
                                 .content(jsonRequest)
                                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isCreated())
                 .andReturn();
-
         CategoryDto actual = objectMapper.readValue(result.getResponse().getContentAsString(),
                 CategoryDto.class);
-
         assertNotNull(actual);
         assertNotNull(actual.getId());
         assertTrue(reflectionEquals(expected, actual, "id"));
@@ -188,7 +182,6 @@ class CategoryControllerTest {
                         .param("size", "10"))
                 .andExpect(status().isOk())
                 .andReturn();
-
         String content = result.getResponse().getContentAsString();
         assertNotNull(content);
         assertTrue(content.contains("content"));
@@ -201,7 +194,7 @@ class CategoryControllerTest {
     @DisplayName("Create category with invalid request returns Bad Request")
     void createCategory_InvalidRequest_ReturnsBadRequest() throws Exception {
         CreateCategoryRequestDto requestDto = new CreateCategoryRequestDto()
-                .setName("") // invalid: empty name
+                .setName("")
                 .setDescription("Description");
         String jsonRequest = objectMapper.writeValueAsString(requestDto);
 
@@ -225,7 +218,6 @@ class CategoryControllerTest {
     void updateCategory_InvalidId_ReturnsNotFound() throws Exception {
         CategoryDto updateDto = createUpdatedCategoryDto(9999L);
         String jsonRequest = objectMapper.writeValueAsString(updateDto);
-
         mockMvc.perform(put("/categories/{id}", 9999)
                         .content(jsonRequest)
                         .contentType(MediaType.APPLICATION_JSON))
