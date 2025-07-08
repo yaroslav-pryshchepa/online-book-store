@@ -14,11 +14,13 @@ import java.util.Set;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import lombok.experimental.Accessors;
 
 @Entity
 @Getter
 @Setter
 @ToString(exclude = "cartItems")
+@Accessors(chain = true)
 @Table(name = "shopping_carts")
 public class ShoppingCart {
     @Id
