@@ -56,10 +56,10 @@ class ShoppingCartControllerTest {
     protected static MockMvc mockMvc;
 
     @Autowired
-    private ObjectMapper objectMapper;
+    private ShoppingCartMapper shoppingCartMapper;
 
     @Autowired
-    ShoppingCartMapper shoppingCartMapper;
+    private ObjectMapper objectMapper;
 
     @BeforeAll
     static void beforeAll(

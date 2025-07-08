@@ -155,7 +155,8 @@ public class ShoppingCartUtil {
                 .setCartItems(items);
     }
 
-    public static ShoppingCartDto createShoppingCartDtoAfterUpdatingQuantity(Long id, Long userId, Long cartItemId, int updatedQuantity) {
+    public static ShoppingCartDto createShoppingCartDtoAfterUpdatingQuantity(
+            Long id, Long userId, Long cartItemId, int updatedQuantity) {
         CartItemDto cartItem1 = new CartItemDto()
                 .setId(1L)
                 .setBookId(1L)
@@ -174,7 +175,8 @@ public class ShoppingCartUtil {
                 .setCartItems(List.of(cartItem1, cartItem2));
     }
 
-    public static ShoppingCartDto createShoppingCartDtoAfterRemovingItem(Long id, Long userId, Long removedCartItemId) {
+    public static ShoppingCartDto createShoppingCartDtoAfterRemovingItem(
+            Long id, Long userId, Long removedCartItemId) {
         CartItemDto remainingItem = new CartItemDto()
                 .setId(2L)
                 .setBookId(2L)

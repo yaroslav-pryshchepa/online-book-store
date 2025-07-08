@@ -1,6 +1,5 @@
 package book.store.service;
 
-
 import static book.store.util.BookUtil.createBook;
 import static book.store.util.ShoppingCartUtil.createAddBookToCartRequestDto;
 import static book.store.util.ShoppingCartUtil.createQuantityDto;
