@@ -4,7 +4,6 @@
 Welcome to the Bookstore Backend — a scalable, modular RESTful API built with Java and Spring Boot. 
 This project powers a comprehensive online bookstore, offering endpoints to manage users, books, orders, and other core functionalities, all while ensuring strong security and thorough documentation.
 The main technology behind the project is Java and Spring Boot. It has all the necessities of a modern day Web application, an online store in particular. Let me show you the details!
-
 The system is designed following a Layered Architecture, which ensures clear separation of concerns, easier maintenance, and future scalability. 
 It integrates modern backend technologies and tools to simplify development, improve testing and deployment processes, and enhance security.
 ---
