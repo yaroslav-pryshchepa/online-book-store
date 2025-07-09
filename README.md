@@ -6,9 +6,8 @@ This project powers a comprehensive online bookstore, offering endpoints to mana
 The main technology behind the project is Java and Spring Boot. It has all the necessities of a modern day Web application, an online store in particular. Let me show you the details!
 The system is designed following a Layered Architecture, which ensures clear separation of concerns, easier maintenance, and future scalability. 
 It integrates modern backend technologies and tools to simplify development, improve testing and deployment processes, and enhance security.
----
 
-### [!Demo video!](https://youtu.be/jdfeNZUkPsA)
+[!Demo video!](https://youtu.be/jdfeNZUkPsA)
 
 ---
 ### Challenges faced
