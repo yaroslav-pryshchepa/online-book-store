@@ -8,9 +8,11 @@ import jakarta.validation.constraints.Positive;
 import java.math.BigDecimal;
 import java.util.List;
 import lombok.Data;
+import lombok.experimental.Accessors;
 import org.hibernate.validator.constraints.ISBN;
 
 @Data
+@Accessors(chain = true)
 public class CreateBookRequestDto {
     @NotBlank
     private String title;

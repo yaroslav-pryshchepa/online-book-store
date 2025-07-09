@@ -3,6 +3,7 @@ package book.store.service.impl;
 import book.store.dto.book.BookDto;
 import book.store.dto.book.BookSearchParametersDto;
 import book.store.dto.book.CreateBookRequestDto;
+import book.store.exception.EntityNotFoundException;
 import book.store.mapper.BookMapper;
 import book.store.model.Book;
 import book.store.model.Category;
@@ -10,7 +11,6 @@ import book.store.repository.book.BookRepository;
 import book.store.repository.book.BookSpecificationBuilder;
 import book.store.repository.category.CategoryRepository;
 import book.store.service.BookService;
-import jakarta.persistence.EntityNotFoundException;
 import java.util.HashSet;
 import java.util.Set;
 import lombok.RequiredArgsConstructor;
@@ -62,6 +62,9 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public void deleteById(Long id) {
+        if (!bookRepository.existsById(id)) {
+            throw new EntityNotFoundException("Can't find book by id: " + id);
+        }
         bookRepository.deleteById(id);
     }
 
