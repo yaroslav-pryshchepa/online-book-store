@@ -142,7 +142,7 @@ public class ShoppingCartUtil {
         items.add(cartItemDto2());
 
         CartItemDto newItem = new CartItemDto()
-                .setId(3L) // новий id, можна параметризувати, але для тесту так ок
+                .setId(3L)
                 .setBookId(newBookId)
                 .setBookTitle(newBookTitle)
                 .setQuantity(newQuantity);
