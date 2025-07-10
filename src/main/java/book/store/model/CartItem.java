@@ -12,11 +12,13 @@ import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import lombok.experimental.Accessors;
 
 @Entity
 @Getter
 @Setter
 @ToString(exclude = "shoppingCart")
+@Accessors(chain = true)
 @Table(name = "cart_items")
 public class CartItem {
     @Id
