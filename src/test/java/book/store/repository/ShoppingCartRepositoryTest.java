@@ -52,3 +52,4 @@ public class ShoppingCartRepositoryTest {
                 .toList();
         assertEquals(expected, actual);
     }
+}    
