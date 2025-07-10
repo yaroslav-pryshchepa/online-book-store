@@ -68,3 +68,42 @@ docker compose up
 ```
 http://localhost:8080/swagger-ui/index.html
 ```
+
+###  Fork and Clone a Project on GitHub
+
+Forking creates a personal copy of someone else's repository under your GitHub account.
+
+- [Go to the GitHub page of repository](https://github.com/yaroslav-pryshchepa/online-book-store)
+- Click the "Fork" button in the upper-right corner
+- Select your GitHub account (or organization) to create the fork
+
+  You now have your own copy of the project.
+
+Make sure you have Git installed on your machine
+
+- You can check by running:
+```
+git --version
+```
+
+Cloning downloads your forked project to your local machine so you can run or work on it.
+
+- On your forked repository page (on your GitHub account), click the "Code" button
+- Copy the URL under HTTPS or SSH
+- Open a terminal (or Git Bash) on your computer
+- Run the following command
+```
+git clone https://github.com/yaroslav-pryshchepa/online-book-store.git
+```
+
+---
+
+## Postman Collection
+
+You can find a Postman collection in `online-book-store-api.postman_collection.json`. To use this:
+
+1. Import the file into Postman.
+2. Adjust Authorization headers (use JWT obtained from login endpoint).
+3. Test all exposed APIs such as authentication, book management, and more.
+
+---
