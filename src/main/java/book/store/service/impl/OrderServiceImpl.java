@@ -80,7 +80,7 @@ public class OrderServiceImpl implements OrderService {
                 .orElseThrow(() -> new EntityNotFoundException("Order not found by id: "
                         + id));
 
-        order.setStatus(dto.getStatus());
+        order.setStatus(Status.valueOf(dto.getStatus()));
         orderRepository.save(order);
         return orderMapper.toDto(order);
     }
